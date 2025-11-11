@@ -1,0 +1,267 @@
+***************
+** Arguments **
+***************
+backbone: 
+config_file: configs/trainers/ClipFit/vit_b16_ep50_ctxv1.yaml
+dataset_config_file: configs/datasets/dtd.yaml
+eval_only: False
+head: 
+load_epoch: None
+model_dir: 
+no_train: False
+opts: ['TRAINER.COOP.N_CTX', '4', 'DATASET.NUM_SHOTS', '1', 'DATALOADER.TRAIN_X.BATCH_SIZE', '2', 'OPTIM.MAX_EPOCH', '1']
+output_dir: output/mps_quick_test
+resume: 
+root: Data/
+seed: 2
+source_domains: None
+target_domains: None
+trainer: ClipFit
+transforms: None
+************
+** Config **
+************
+DATALOADER:
+  K_TRANSFORMS: 1
+  NUM_WORKERS: 8
+  RETURN_IMG0: False
+  TEST:
+    BATCH_SIZE: 100
+    SAMPLER: SequentialSampler
+  TRAIN_U:
+    BATCH_SIZE: 32
+    N_DOMAIN: 0
+    N_INS: 16
+    SAME_AS_X: True
+    SAMPLER: RandomSampler
+  TRAIN_X:
+    BATCH_SIZE: 2
+    N_DOMAIN: 0
+    N_INS: 16
+    SAMPLER: RandomSampler
+DATASET:
+  ALL_AS_UNLABELED: False
+  CIFAR_C_LEVEL: 1
+  CIFAR_C_TYPE: 
+  NAME: DescribableTextures
+  NUM_LABELED: -1
+  NUM_SHOTS: 1
+  ROOT: Data/
+  SOURCE_DOMAINS: ()
+  STL10_FOLD: -1
+  SUBSAMPLE_CLASSES: all
+  TARGET_DOMAINS: ()
+  VAL_PERCENT: 0.1
+INPUT:
+  COLORJITTER_B: 0.4
+  COLORJITTER_C: 0.4
+  COLORJITTER_H: 0.1
+  COLORJITTER_S: 0.4
+  CROP_PADDING: 4
+  CUTOUT_LEN: 16
+  CUTOUT_N: 1
+  GB_K: 21
+  GB_P: 0.5
+  GN_MEAN: 0.0
+  GN_STD: 0.15
+  INTERPOLATION: bicubic
+  NO_TRANSFORM: False
+  PIXEL_MEAN: [0.48145466, 0.4578275, 0.40821073]
+  PIXEL_STD: [0.26862954, 0.26130258, 0.27577711]
+  RANDAUGMENT_M: 10
+  RANDAUGMENT_N: 2
+  RGS_P: 0.2
+  RRCROP_SCALE: (0.08, 1.0)
+  SIZE: (224, 224)
+  TRANSFORMS: ('random_resized_crop', 'random_flip', 'normalize')
+MODEL:
+  BACKBONE:
+    NAME: ViT-B/16
+    PRETRAINED: True
+  HEAD:
+    ACTIVATION: relu
+    BN: True
+    DROPOUT: 0.0
+    HIDDEN_LAYERS: ()
+    NAME: 
+  INIT_WEIGHTS: 
+OPTIM:
+  ADAM_BETA1: 0.9
+  ADAM_BETA2: 0.999
+  BASE_LR_MULT: 0.1
+  GAMMA: 0.1
+  LR: 0.002
+  LR_SCHEDULER: cosine
+  MAX_EPOCH: 1
+  MOMENTUM: 0.9
+  NAME: sgd
+  NEW_LAYERS: ()
+  RMSPROP_ALPHA: 0.99
+  SGD_DAMPNING: 0
+  SGD_NESTEROV: False
+  STAGED_LR: False
+  STEPSIZE: (-1,)
+  WARMUP_CONS_LR: 1e-05
+  WARMUP_EPOCH: 1
+  WARMUP_MIN_LR: 1e-05
+  WARMUP_RECOUNT: True
+  WARMUP_TYPE: constant
+  WEIGHT_DECAY: 0.0005
+OUTPUT_DIR: output/mps_quick_test
+RESUME: 
+SEED: 2
+TEST:
+  COMPUTE_CMAT: False
+  EVALUATOR: Classification
+  FINAL_MODEL: last_step
+  NO_TEST: False
+  PER_CLASS_RESULT: False
+  SPLIT: test
+TRAIN:
+  CHECKPOINT_FREQ: 0
+  COUNT_ITER: train_x
+  PRINT_FREQ: 5
+TRAINER:
+  CDAC:
+    CLASS_LR_MULTI: 10
+    P_THRESH: 0.95
+    RAMPUP_COEF: 30
+    RAMPUP_ITRS: 1000
+    STRONG_TRANSFORMS: ()
+    TOPK_MATCH: 5
+  COCOOP:
+    CTX_INIT: 
+    N_CTX: 16
+    PREC: fp16
+  COOP:
+    CLASS_TOKEN_POSITION: end
+    CSC: False
+    CTX_INIT: a photo of a
+    N_CTX: 4
+    PREC: fp16
+    W1: 1.0
+    W2: 1.0
+  CROSSGRAD:
+    ALPHA_D: 0.5
+    ALPHA_F: 0.5
+    EPS_D: 1.0
+    EPS_F: 1.0
+  DAEL:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 0.5
+  DAELDG:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 0.5
+  DDAIG:
+    ALPHA: 0.5
+    CLAMP: False
+    CLAMP_MAX: 1.0
+    CLAMP_MIN: -1.0
+    G_ARCH: 
+    LMDA: 0.3
+    WARMUP: 0
+  DOMAINMIX:
+    ALPHA: 1.0
+    BETA: 1.0
+    TYPE: crossdomain
+  ENTMIN:
+    LMDA: 0.001
+  FIXMATCH:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 1.0
+  M3SDA:
+    LMDA: 0.5
+    N_STEP_F: 4
+  MCD:
+    N_STEP_F: 4
+  MEANTEACHER:
+    EMA_ALPHA: 0.999
+    RAMPUP: 5
+    WEIGHT_U: 1.0
+  MIXMATCH:
+    MIXUP_BETA: 0.75
+    RAMPUP: 20000
+    TEMP: 2.0
+    WEIGHT_U: 100.0
+  MME:
+    LMDA: 0.1
+  NAME: ClipFit
+  SE:
+    CONF_THRE: 0.95
+    EMA_ALPHA: 0.999
+    RAMPUP: 300
+USE_CUDA: True
+VERBOSE: True
+VERSION: 1
+Collecting env info ...
+** System info **
+PyTorch version: 2.4.1
+Is debug build: False
+CUDA used to build PyTorch: None
+ROCM used to build PyTorch: N/A
+
+OS: macOS 15.6.1 (arm64)
+GCC version: Could not collect
+Clang version: 17.0.0 (clang-1700.0.13.5)
+CMake version: Could not collect
+Libc version: N/A
+
+Python version: 3.8.20 (default, Oct  3 2024, 10:22:23)  [Clang 14.0.6 ] (64-bit runtime)
+Python platform: macOS-15.6.1-arm64-arm-64bit
+Is CUDA available: False
+CUDA runtime version: No CUDA
+CUDA_MODULE_LOADING set to: N/A
+GPU models and configuration: No CUDA
+Nvidia driver version: No CUDA
+cuDNN version: No CUDA
+HIP runtime version: N/A
+MIOpen runtime version: N/A
+Is XNNPACK available: True
+
+CPU:
+Apple M1 Pro
+
+Versions of relevant libraries:
+[pip3] flake8==3.7.9
+[pip3] numpy==1.24.3
+[pip3] torch==2.4.1
+[pip3] torchaudio==2.4.1
+[pip3] torchvision==0.20.0
+[conda] numpy                     1.26.4          py311he598dae_0  
+[conda] numpy-base                1.26.4          py311hfbfe69c_0  
+        Pillow (10.4.0)
+
+Loading trainer: ClipFit
+Loading dataset: DescribableTextures
+Reading split from /Users/rosechiu/Desktop/大学/大三上/自然语言处理/CLIPFit-main/CLIPFit/Data/dtd/split_zhou_DescribableTextures.json
+Creating a 1-shot dataset
+Creating a 1-shot dataset
+Saving preprocessed few-shot data to /Users/rosechiu/Desktop/大学/大三上/自然语言处理/CLIPFit-main/CLIPFit/Data/dtd/split_fewshot/shot_1-seed_2.pkl
+Building transform_train
++ random resized crop (size=(224, 224), scale=(0.08, 1.0))
++ random flip
++ to torch tensor of range [0, 1]
++ normalization (mean=[0.48145466, 0.4578275, 0.40821073], std=[0.26862954, 0.26130258, 0.27577711])
+Building transform_test
++ resize the smaller edge to 224
++ 224x224 center crop
++ to torch tensor of range [0, 1]
++ normalization (mean=[0.48145466, 0.4578275, 0.40821073], std=[0.26862954, 0.26130258, 0.27577711])
+---------  -------------------
+Dataset    DescribableTextures
+# classes  47
+# train_x  47
+# val      47
+# test     1,692
+---------  -------------------
+47 ['banded', 'blotchy', 'braided', 'bubbly', 'bumpy', 'chequered', 'cobwebbed', 'cracked', 'crosshatched', 'crystalline', 'dotted', 'fibrous', 'flecked', 'freckled', 'frilly', 'gauzy', 'grid', 'grooved', 'honeycombed', 'interlaced', 'knitted', 'lacelike', 'lined', 'marbled', 'matted', 'meshed', 'paisley', 'perforated', 'pitted', 'pleated', 'polka-dotted', 'porous', 'potholed', 'scaly', 'smeared', 'spiralled', 'sprinkled', 'stained', 'stratified', 'striped', 'studded', 'swirly', 'veined', 'waffled', 'woven', 'wrinkled', 'zigzagged']
+Loading CLIP (backbone: ViT-B/16)
+Building custom CLIP
+Prompts: ['a photo of a banded, a type of texture.', 'a photo of a blotchy, a type of texture.', 'a photo of a braided, a type of texture.', 'a photo of a bubbly, a type of texture.', 'a photo of a bumpy, a type of texture.', 'a photo of a chequered, a type of texture.', 'a photo of a cobwebbed, a type of texture.', 'a photo of a cracked, a type of texture.', 'a photo of a crosshatched, a type of texture.', 'a photo of a crystalline, a type of texture.', 'a photo of a dotted, a type of texture.', 'a photo of a fibrous, a type of texture.', 'a photo of a flecked, a type of texture.', 'a photo of a freckled, a type of texture.', 'a photo of a frilly, a type of texture.', 'a photo of a gauzy, a type of texture.', 'a photo of a grid, a type of texture.', 'a photo of a grooved, a type of texture.', 'a photo of a honeycombed, a type of texture.', 'a photo of a interlaced, a type of texture.', 'a photo of a knitted, a type of texture.', 'a photo of a lacelike, a type of texture.', 'a photo of a lined, a type of texture.', 'a photo of a marbled, a type of texture.', 'a photo of a matted, a type of texture.', 'a photo of a meshed, a type of texture.', 'a photo of a paisley, a type of texture.', 'a photo of a perforated, a type of texture.', 'a photo of a pitted, a type of texture.', 'a photo of a pleated, a type of texture.', 'a photo of a polka-dotted, a type of texture.', 'a photo of a porous, a type of texture.', 'a photo of a potholed, a type of texture.', 'a photo of a scaly, a type of texture.', 'a photo of a smeared, a type of texture.', 'a photo of a spiralled, a type of texture.', 'a photo of a sprinkled, a type of texture.', 'a photo of a stained, a type of texture.', 'a photo of a stratified, a type of texture.', 'a photo of a striped, a type of texture.', 'a photo of a studded, a type of texture.', 'a photo of a swirly, a type of texture.', 'a photo of a veined, a type of texture.', 'a photo of a waffled, a type of texture.', 'a photo of a woven, a type of texture.', 'a photo of a wrinkled, a type of texture.', 'a photo of a zigzagged, a type of texture.']
+Turning off gradients in both the image and the text encoder
+Loading evaluator: Classification
+No checkpoint found, train from scratch
+Initialize tensorboard (log_dir=output/mps_quick_test/tensorboard)
